@@ -25,9 +25,6 @@ public class AdminController {
 
 	@RequestMapping(value = "/userProfile", method = RequestMethod.GET)
 	public String userProfile(Model model, HttpServletRequest request) {
-		System.out.println("userProfile() controller");
-		
-		System.out.println(request.getSession().getAttribute("kulid"));
 		
 		if (!sessionKontrol(request,model)) {
 			return "redirect:/giris";
@@ -43,7 +40,6 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminEkle", method = RequestMethod.GET)
 	public String adminEkle(Model model, HttpServletRequest request) {
-		System.out.println("adminEkle() controller");
 		
 		if (!sessionKontrol(request,model)) {
 			return "redirect:/giris";
@@ -64,8 +60,6 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminEkle", method = RequestMethod.POST)
 	public String adminEkle(Model model, Admin admin, HttpServletRequest request) {
-		System.out.println("adminEkle() controller2");
-		System.out.println("admin:"+admin.getName());
 		
 		if (!sessionKontrol(request,model)) {
 			return "redirect:/giris";
@@ -90,7 +84,6 @@ public class AdminController {
 		if (admin == null) {
 			return false;
 		}else {
-			System.out.println("donen admin:"+admin.getEmail());
 			//admin exist
 			return true;
 		}
@@ -98,7 +91,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminGuncelle", method = RequestMethod.GET)
 	public String adminGuncelle(Model model, HttpServletRequest request) {
-		System.out.println("adminGuncelle() controller");
+
 		if (request.getParameter("hata") != null) {
 			model.addAttribute("hata", "Email Sistemde kayitli, Lutfen baska bir email deneyin!!!");
 		}
@@ -106,7 +99,6 @@ public class AdminController {
 			model.addAttribute("success", "Kullanıcı  başarılı bir şekilde güncellendi...");
 		}
 		if (request.getParameter("kontrol") != null) {
-			System.out.println("kontrolden sonra null geldi");
 			getCategory(model);
 			addAdminToModel(model, request);
 			getPicture(model, request);
@@ -132,11 +124,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminGuncelle", method = RequestMethod.POST)
 	public String adminGuncelle(Model model, Admin admin, HttpServletRequest request) {
-		System.out.println("adminGuncelle2() controller");
 		Admin ad = null;
-		ArrayList<Admin> admins = new AdminCrud().read(ad);
-		System.out.println("adminleri aldik:" +admins.size());
-		
+		ArrayList<Admin> admins = new AdminCrud().read(ad);		
 		for (Admin admin2 : admins) {
 			if (!(admin.getId() == admin2.getId())) {
 				if (admin.getEmail() == admin2.getEmail()) {
@@ -175,7 +164,6 @@ public class AdminController {
 	}
 	
 	void getPicture(Model model, HttpServletRequest request) {
-		System.out.println("getPicture()");
 		int id = (Integer) request.getSession().getAttribute("kulid");
 		Picture picture = new Picture();
 		picture.setId(id);
